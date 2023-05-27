@@ -130,6 +130,15 @@ float tamCaminhao(float x)
         return -1;
 }
 
+void saida(float x)
+{
+    FILE *arq_sd;
+
+    arq_sd = fopen("saida.txt", "a");
+    fprintf(arq_sd, "%.1f\n", x);
+    fclose(arq_sd);
+}
+
 int main(int argc, char **argv)
 {
     int i;
@@ -214,6 +223,8 @@ int main(int argc, char **argv)
         // com caminho
         else
             resp = tamCaminhao(menor);
+
+        saida(resp);
     }
 
     fclose(arq_ent);
