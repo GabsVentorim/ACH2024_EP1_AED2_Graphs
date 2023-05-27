@@ -114,6 +114,22 @@ bool busca(Grafo *grafo, int inicio, int destino, float *min)
     return false;
 }
 
+float tamCaminhao(float x)
+{
+    if (x >= 4.5)
+        return 4.5;
+    if (4.5 > x && x >= 4)
+        return 4;
+    if (4 > x && x >= 3.5)
+        return 3.5;
+    if (3.5 > x && x >= 3)
+        return 3;
+    if (3 > x && x >= 2.5)
+        return 2.5;
+    if (x < 2.5)
+        return -1;
+}
+
 int main(int argc, char **argv)
 {
     int i;
