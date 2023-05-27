@@ -64,6 +64,56 @@ void prim(Grafo *grafo, int *parent)
     // printAGM(parent, grafo);
 }
 
+/************************************ BUSCA **********************************************/
+
+bool busca(Grafo *grafo, int inicio, int destino, float *min)
+{
+    int i;
+    bool visitado[grafo->numVertices];
+    int queue[grafo->numVertices];
+    int frente = 0, traseira = 0;
+    int ant[grafo->numVertices];
+
+    for (i = 0; i < grafo->numVertices; i++)
+        visitado[i] = false;
+
+    queue[traseira++] = inicio;
+    visitado[inicio] = true;
+    ant[inicio] = -1;
+
+    while (frente < traseira)
+    {
+        int v = queue[frente++];
+
+        if (v == destino)
+        {
+            int u = destino;
+            while (ant[u] != -1)
+            {
+                if (obtemPesoAresta(ant[u], u, grafo) < *min)
+                {
+                    *min = obtemPesoAresta(ant[u], u, grafo);
+                }
+                u = ant[u];
+            }
+
+            return true;
+        }
+
+        for (int i = 0; i < grafo->numVertices; i++)
+        {
+            if (existeAresta(v, i, grafo) && !visitado[i])
+            {
+                queue[traseira++] = i;
+                visitado[i] = true;
+                ant[i] = v;
+            }
+        }
+    }
+
+    return false;
+}
+
 int main(int argc, char **argv)
 {
     int i;
