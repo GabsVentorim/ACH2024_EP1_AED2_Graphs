@@ -9,6 +9,61 @@
 
 #define inf 9999;
 
+/************************************** ALG. DE PRIM **********************************************/
+
+int maxKey(float key[], bool mstSet[], Grafo *grafo)
+{
+    float max = -1;
+    int max_i = -1;
+
+    for (int v = 0; v < grafo->numVertices; v++)
+        if (mstSet[v] == false && key[v] > max)
+        {
+            max = key[v];
+            max_i = v;
+        }
+    return max_i;
+}
+
+int printAGM(int ant[], Grafo *grafo)
+{
+    printf("Aresta \tPeso\n");
+    for (int i = 1; i < grafo->numVertices; i++)
+        printf("%d - %d \t%.1f \n", ant[i], i, obtemPesoAresta(i, ant[i], grafo));
+}
+
+void prim(Grafo *grafo, int *parent)
+{
+    int i;
+    float key[grafo->numVertices];
+    bool mstSet[grafo->numVertices];
+
+    for (i = 0; i < grafo->numVertices; i++)
+    {
+        key[i] = -1;
+        mstSet[i] = false;
+        parent[i] = -1;
+    }
+
+    key[0] = inf;
+
+    for (int count = 0; count < grafo->numVertices - 1; count++)
+    {
+        int u = maxKey(key, mstSet, grafo);
+        mstSet[u] = true;
+
+        for (int v = 0; v < grafo->numVertices; v++)
+
+            if (existeAresta(u, v, grafo) && mstSet[v] == false && obtemPesoAresta(u, v, grafo) > key[v])
+            {
+                parent[v] = u;
+                key[v] = obtemPesoAresta(u, v, grafo);
+            }
+    }
+
+    // printAGM(parent, grafo);
+}
+
 int main(int argc, char **argv)
 {
     int i;
