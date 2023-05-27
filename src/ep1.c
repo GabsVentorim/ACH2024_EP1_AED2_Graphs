@@ -155,6 +155,11 @@ int main(int argc, char **argv)
         fprintf(stderr, "Erro: falha na leitura da primeira linha\n");
     }
 
+    if (!(inicializaGrafo(&grafo, numVertices)))
+    {
+        fprintf(stderr, "Erro: inicializar grafo\n");
+    }
+
     int v, u;
     float peso;
     for (i = 1; i <= numArestas; i++)
@@ -162,6 +167,32 @@ int main(int argc, char **argv)
         if (fscanf(arq_ent, "%d %d %f", &v, &u, &peso) != 3)
         {
             fprintf(stderr, "Erro: falha de leitura de: v u peso\n");
+        }
+
+        if (!(insereAresta(v, u, peso, &grafo)))
+        {
+            fprintf(stderr, "Erro: insere aresta\n");
+        }
+    }
+
+    // index = vertice ; valor = antecessor
+    int v_AGMax[grafo.numVertices];
+    prim(&grafo, v_AGMax);
+
+    Grafo grafo_max;
+    grafo_max.numVertices = numVertices;
+    grafo_max.numArestas = numVertices - 1;
+
+    if (!(inicializaGrafo(&grafo_max, numVertices)))
+    {
+        fprintf(stderr, "Erro: inicializar grafo_max\n");
+    }
+
+    for (i = 1; i < numVertices; i++)
+    {
+        if (!(insereAresta(v_AGMax[i], i, obtemPesoAresta(v_AGMax[i], i, &grafo), &grafo_max)))
+        {
+            fprintf(stderr, "Erro: insere aresta\n");
         }
     }
 
@@ -172,6 +203,17 @@ int main(int argc, char **argv)
         {
             fprintf(stderr, "Erro: falha de leitura das consultas\n");
         }
+        float menor = inf;
+        bool existeCaminho = busca(&grafo_max, partida, chegada, &menor);
+        float resp;
+
+        // sem caminho
+        if (!existeCaminho)
+            resp = 5.5;
+
+        // com caminho
+        else
+            resp = tamCaminhao(menor);
     }
 
     fclose(arq_ent);
