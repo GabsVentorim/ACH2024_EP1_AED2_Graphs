@@ -4,8 +4,8 @@
 
 // DEVE-SE COMENTAR UM DESSES INCLUDES PARA ESCOLHER A IMPLEMENTACAO DO GRAFO
 
-// #include "grafo_matrizadj.h"
-#include "grafo_listaadj.h"
+// #include "grafo_matrizAdj.h"
+#include "grafo_listaAdj.h"
 
 #define inf 9999;
 
@@ -114,6 +114,8 @@ bool busca(Grafo *grafo, int inicio, int destino, float *min)
     return false;
 }
 
+/************************************************************************************************/
+
 float tamCaminhao(float x)
 {
     if (x >= 4.5)
@@ -218,7 +220,7 @@ int main(int argc, char **argv)
 
         // sem caminho
         if (!existeCaminho)
-            resp = 5.5;
+            resp = tamCaminhao(5.5);
 
         // com caminho
         else

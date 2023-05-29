@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#include "grafo_listaAdj.h"
+#include "grafo_listaadj.h"
 
 // O(v)
 bool inicializaGrafo(Grafo *grafo, int nv)
